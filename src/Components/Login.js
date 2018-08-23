@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Card, CardContent, Typography, withStyles, CardActions, Button, TextField } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setLoggedIn } from '../Redux/actions'
 
 const styles = theme => ({
     loginCard: {
@@ -25,25 +27,30 @@ const styles = theme => ({
 })
 
 class Login extends Component {
-  render() {
-    const { classes } = this.props;
-    return (
-        <div>
-            <Card className={classes.loginCard}>
-                <CardContent>
-                    <Typography variant="display2">Login</Typography>
-                    <form className={classes.inputContainer}>
-                        <TextField className={classes.input} placeholder="Email" />
-                        <TextField className={classes.input} placeholder="Password" type="password" />
-                    </form>
-                </CardContent>
-                <CardActions>
-                    <Button component={Link} to="/dashboard" className={classes.button} variant="outlined">Login</Button>
-                </CardActions>
-            </Card>
-        </div>
-    )
-  }
+
+    handleLogin = () => {
+        this.props.setLoggedIn(true);
+    }
+
+    render() {
+        const { classes } = this.props;
+        return (
+            <div>
+                <Card className={classes.loginCard}>
+                    <CardContent>
+                        <Typography variant="display2">Login</Typography>
+                        <form className={classes.inputContainer} onSubmit={this.handleLogin}>
+                            <TextField className={classes.input} placeholder="Email" />
+                            <TextField className={classes.input} placeholder="Password" type="password" />
+                        </form>
+                    </CardContent>
+                    <CardActions>
+                        <Button onClick={this.handleLogin} component={Link} to="/dashboard" className={classes.button} variant="outlined">Login</Button>
+                    </CardActions>
+                </Card>
+            </div>
+        )
+    }
 }
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(connect(null, { setLoggedIn })(Login));
