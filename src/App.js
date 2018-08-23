@@ -10,7 +10,9 @@ import Login from './Components/Login';
 import Register from './Components/Register';
 import Dashboard from './Components/Dashboard';
 import Welcome from './Components/Welcome';
-
+import Settings from './Components/Settings'
+import { connect } from 'react-redux'
+import { LOCAL_STORAGE_PRIMARY_COLOR, LOCAL_STORAGE_SECONDARY_COLOR } from './Redux/constants';
 
 class App extends Component {
 
@@ -25,8 +27,18 @@ class App extends Component {
   }
 
   render() {
-    let primary = red;
-    let secondary = pink;
+
+    const { colors } = this.props;
+    let primary = colors.primary;
+    let secondary = colors.secondary;
+
+    if(localStorage.getItem(LOCAL_STORAGE_PRIMARY_COLOR)){
+      primary = JSON.parse(localStorage.getItem(LOCAL_STORAGE_PRIMARY_COLOR))
+    }
+
+    if(localStorage.getItem(LOCAL_STORAGE_SECONDARY_COLOR)){
+      secondary = JSON.parse(localStorage.getItem(LOCAL_STORAGE_SECONDARY_COLOR))
+    }
 
     const theme = createMuiTheme({
       palette: {
@@ -46,9 +58,17 @@ class App extends Component {
           <Route path="/register" component={Register} />
           <Route path="/dashboard" component={Dashboard} />
           <Route path="/welcome" component={Welcome} />
+          <Route path="/settings" component={Settings} />
       </MuiThemeProvider>
     );
   }
 }
 
-export default withRouter(App);
+const mapStateToProps = state => {
+  console.log(state)
+  return{
+    colors: state.colors
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(App));

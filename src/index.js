@@ -8,11 +8,12 @@ import { Provider } from 'react-redux';
 import { createStore, combineReducers } from 'redux';
 
 import { BrowserRouter as Router } from 'react-router-dom';
-import { userData } from './Redux/reducers'
+import { userData, colorManager } from './Redux/reducers'
 
 //const logger = createLogger();
 const rootReducer = combineReducers({
-    user: userData
+    user: userData,
+    colors: colorManager
 })
 const store = createStore(rootReducer);
 
