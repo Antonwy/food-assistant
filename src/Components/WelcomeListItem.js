@@ -1,7 +1,10 @@
 import React, { Component } from 'react'
 
-import { withStyles, Card, Typography, Button, Collapse, TextField } from '@material-ui/core'
-import { Link } from 'react-router-dom'
+import { withStyles, Card, Typography, Button, Collapse, TextField, FormControl, FormControlLabel, FormLabel } from '@material-ui/core'
+import { withRouter } from 'react-router-dom'
+
+import { Field, reduxForm } from 'redux-form'
+import Checkbox from '@material-ui/core/Checkbox';
 
 
 const style = theme => ({
@@ -19,6 +22,9 @@ const style = theme => ({
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center"
+    },
+    formControl: {
+        margin: 20
     }
 })
 
@@ -35,8 +41,33 @@ class WelcomeListItem extends Component {
         })
     }
 
+    renderCheckbox = ({ input }) => (
+        <Checkbox
+          checked={input.value ? true : false}
+          onChange={input.onChange}
+        />
+    );
+
+    renderDateChooser = ({ input, label, meta: { touched, error } }) => (
+        <TextField
+            id="date"
+            label= {error ? error : label}
+            type="date"
+            className={this.props.classes.textField}
+            InputLabelProps={{
+                shrink: true,
+            }}
+            error={touched && error ? true : false}
+            {...input}
+        />
+    );
+
+    handleSave = (values) => {
+        console.log(values)
+    }
+
     render() {
-        const {classes, item} = this.props;
+        const {classes, item, handleSubmit } = this.props;
         return (
             <div>
                 <Card className={classes.list}>
@@ -49,17 +80,35 @@ class WelcomeListItem extends Component {
                     <Collapse in={this.state.show}>
                         <div className={classes.container}>
                             <Typography align="center" variant="display1" gutterBottom>Deine Werte:</Typography>
-                            <TextField
-                                id="date"
-                                label="Geburtstag"
-                                type="date"
-                                defaultValue="2017-05-24"
-                                className={classes.textField}
-                                InputLabelProps={{
-                                shrink: true,
-                                }}
-                            />
-                            <Button style={{marginBottom: 20}} variant="outlined" component={Link} to="/dashboard">Save</Button>
+                            <Field defaultValue="2017-05-24" name="geb" label="Geburstag" component={this.renderDateChooser} />
+                            <FormControl className={classes.formControl} component="fieldset">
+                                <FormLabel component="legend">Allergien: </FormLabel>
+                                <FormControlLabel
+                                control={
+                                    <Field name="erdnüsse" component={this.renderCheckbox} />
+                                }
+                                label="Erdnüsse"
+                                />
+                                <FormControlLabel
+                                control={
+                                    <Field name="lactose" component={this.renderCheckbox} />
+                                }
+                                label="Lactose"
+                                />
+                                <FormControlLabel
+                                control={
+                                    <Field name="ei" component={this.renderCheckbox} />
+                                }
+                                label="Ei"
+                                />
+                                <FormControlLabel
+                                control={
+                                    <Field name="gluten" component={this.renderCheckbox} />
+                                }
+                                label="Gluten"
+                                />
+                            </FormControl>
+                            <Button style={{marginBottom: 20}} variant="outlined" onClick={handleSubmit(this.handleSave)}>Save</Button>
                         </div>
                     </Collapse>
                 </Card>
@@ -68,4 +117,22 @@ class WelcomeListItem extends Component {
     }
 }
 
-export default withStyles(style)(WelcomeListItem)
+const validate = (values) => {
+    const errors= {};
+    if(!values.geb){
+        errors.geb = "Gebe deinen Geburtstag ein!"
+    }
+    return errors;
+}
+
+
+export default withStyles(style)(reduxForm({
+    form: 'foodOptions',
+    initialValues: {
+        ei: false,
+        erdnüsse: false,
+        gluten: false,
+        lactose: false
+    },
+    validate
+})(withRouter(WelcomeListItem)))

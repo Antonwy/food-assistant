@@ -26,6 +26,7 @@ const styles = theme => ({
     },
     button: {
         margin: "10px auto",
+        marginTop: 20
     }
 
 })

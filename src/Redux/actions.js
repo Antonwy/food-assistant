@@ -37,6 +37,19 @@ export const loginUser = (userData, callback) => (dispatch) => {
     })
 }
 
+export const postUserDetails = (userDetails, callback) => (dispatch) => {
+    const { geb, ei, gluten, erdnüsse, lactose } = userDetails;
+    axios.post(`${ROOT_URL}/user_details`, {
+        geburtstag: geb,
+        ei,
+        gluten,
+        erdnüsse,
+        lactose
+    })
+    .then(res => {callback()})
+    .catch(err => console.log(err));
+}
+
 export const changePrimaryColor = (primary) => {
     return{
         type: CHANGE_PRIMARY_COLOR,

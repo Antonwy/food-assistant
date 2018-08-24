@@ -19,7 +19,7 @@ const styles = theme => ({
         marginLeft: 20
     },
     input: {
-        minWidth: "300px",
+        minWidth: "100%",
         margin: "10px 0"
     }, 
     changeBTN: {
@@ -63,7 +63,7 @@ class Settings extends React.Component {
                             </ListItem>
                             <Divider/>
                             <ListItem>
-                                <div style={{display: "flex", flexDirection: "column", alignItems: "center", flexWrap: "wrap"}}>
+                                <div style={{display: "flex", flexDirection: "column", alignItems: "center", flexWrap: "wrap", width: "100%"}}>
                                     <TextField placeholder="Nutzername" className={classes.input}></TextField>
                                     <TextField type="email" placeholder="Email" className={classes.input}></TextField>
                                     <TextField type="password" placeholder="Password" className={classes.input}></TextField>
