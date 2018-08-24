@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core'
 import { connect } from 'react-redux'
 import DashbordDayItems from './DashbordDayItems';
 import DashboardCharts from './DashboardCharts';
+import DashboardTable from './DashboardTable';
 
 const style = theme => ({
   container: {
@@ -29,6 +30,9 @@ class Dashboard extends Component {
           <DashbordDayItems dayTime="Morgens" foodName="Nudeln" />
           <DashbordDayItems dayTime="Mittags" foodName="Pizza" />
           <DashbordDayItems dayTime="Abends" foodName="Lasagne" />
+        </div>
+        <DashboardTable />
+        <div className={classes.container}>
           <DashboardCharts header="Header1" color="blue" data={[7, 20, 5, 15, 6, 8]}/>
           <DashboardCharts header="Header2" color="red" data={[2, 7, 12, 25, 24, 10]}/>
           <DashboardCharts header="Header3" color="green" data={[30, 7, 2, 25, 25, 15]}/>

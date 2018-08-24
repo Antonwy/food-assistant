@@ -9,10 +9,10 @@ export const setLoggedIn = (tf) => {
 }
 
 export const registerUser = (userData, callback) => (dispatch) => {
-    const { username, password1, firstname, lastname } = userData;
-    
+    const { username, email, password1, firstname, lastname } = userData;
     axios.post(`${ROOT_URL}/register`, {
         username,
+        email,
         password: password1,
         firstName: firstname,
         lastName: lastname,

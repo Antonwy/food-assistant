@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
-import { withStyles, ButtonBase, Button, CardActions } from '@material-ui/core'
+import { withStyles, ButtonBase, Button, CardActions, Collapse } from '@material-ui/core'
 import { CardContent, Typography, Card } from '@material-ui/core';
+
+
 
 const styles = theme => ({
     card: {
         margin: 10,
-        flexGrow: 1,
-        minWidth: 300,
+        //flexGrow: 1,
+        //minWidth: 300,
     },
     image: {
         borderRadius: 50,
@@ -14,19 +16,34 @@ const styles = theme => ({
         boxShadow: "0 8px 6px -6px #ccc"
     },
     showBTN: {
-        margin: "20px auto"
+        margin: "20px auto",
     },
     description: {
         width: 250,
     },
     name: {
         margin: 10
+    },
+    paper: {
+        width: "95%",
+        margin: "20px auto"
     }
 })
 
 
 
 class DashbordDayItems extends Component {
+
+    state = {
+        show: false
+    }
+
+    handleCollapse = () => {
+        this.setState(state => ({
+            show: !state.show
+        }))
+    }
+
     render() {
         const { classes, dayTime, foodName } = this.props;
         const imgSrc = `https://source.unsplash.com/200x200/?food,meal?sig=${Math.round(Math.random() * 100)}`
@@ -43,9 +60,6 @@ class DashbordDayItems extends Component {
                             <Typography align="center" className={classes.description} variant="body1">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</Typography>
                         </div>
                     </CardContent>
-                    <CardActions>
-                        <Button variant="outlined" className={classes.showBTN}>Show</Button>
-                    </CardActions>
                 </Card>
             </div>
         )

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Card, CardContent, Typography, Collapse } from '@material-ui/core';
 import { withStyles } from '@material-ui/core'
 import WelcomeListItem from './WelcomeListItem';
-import update from 'immutability-helper';
 
 
 const styles = theme => ({
