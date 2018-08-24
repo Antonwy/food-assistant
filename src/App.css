@@ -3,3 +3,14 @@ body{
   padding: 0;
   transition: background 500ms;
 }
+
+.switch-wrapper {
+  position: relative;
+}
+
+.switch-wrapper > div {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin: auto
+}

@@ -1,11 +1,11 @@
 import React from 'react'
-import { withStyles, Typography, Button, Card, CardContent } from '@material-ui/core'
+import { withStyles, Typography, Button, Card, CardContent, List, ListItem, Divider, TextField, ListItemText } from '@material-ui/core'
 import { Link } from 'react-router-dom'
 import ColorChooser from './ColorChooser';
 
 const styles = theme => ({
     root: {
-        width: '100%',
+        width: '90%',
         maxWidth: 700,
         margin: "50px auto",
     },
@@ -17,6 +17,13 @@ const styles = theme => ({
     },
     chooseBTN: {
         marginLeft: 20
+    },
+    input: {
+        minWidth: "300px",
+        margin: "10px 0"
+    }, 
+    changeBTN: {
+        marginTop: 10,
     }
 })
 
@@ -49,15 +56,34 @@ class Settings extends React.Component {
                 <ColorChooser open={dialogOpen} colorType={colorType} handleClose={this.handleClose}/>
                 <Card>
                     <CardContent>
-                        <Typography gutterBottom  variant="display3">Settings</Typography>
-                        <div className={classes.flex}>
-                            <Typography variant="subheading">Primary color: </Typography>
-                            <Button variant="contained" component={Link} to="/" color="primary" className={classes.chooseBTN} onClick={this.handleClick("primary")}>Choose</Button>
-                        </div>
-                        <div className={classes.flex}>
-                            <Typography variant="subheading">Secondary color</Typography>
-                            <Button variant="contained" component={Link} to="/" color="secondary" className={classes.chooseBTN} onClick={this.handleClick("secondary")}>Choose</Button>
-                        </div>
+                        <Typography gutterBottom  variant="display3">Einstellungen</Typography>
+                        <List>
+                            <ListItem>
+                                <ListItemText variant="subheading">Nutzerdaten ändern: </ListItemText>
+                            </ListItem>
+                            <Divider/>
+                            <ListItem>
+                                <div style={{display: "flex", flexDirection: "column", alignItems: "center", flexWrap: "wrap"}}>
+                                    <TextField placeholder="Nutzername" className={classes.input}></TextField>
+                                    <TextField type="email" placeholder="Email" className={classes.input}></TextField>
+                                    <TextField type="password" placeholder="Password" className={classes.input}></TextField>
+                                    <Button variant="outlined" color="secondary" className={classes.changeBTN}>Ändern</Button>
+                                </div>
+                            </ListItem>
+                            <ListItem>
+                                <Typography variant="subheading">Farben</Typography>
+                            </ListItem>
+                            <Divider/>
+                            <ListItem>
+                                <Typography variant="subheading">Haupt Farbe: </Typography>
+                                <Button variant="contained" color="primary" className={classes.chooseBTN} onClick={this.handleClick("primary")}>Wählen</Button>
+                            </ListItem>
+                            <ListItem>
+                                <Typography variant="subheading">Neben Farbe</Typography>
+                                <Button variant="contained" color="secondary" className={classes.chooseBTN} onClick={this.handleClick("secondary")}>Wählen</Button>
+                            </ListItem>
+                        </List>
+                        
                     </CardContent>
                 </Card>
             </div>

@@ -37,7 +37,7 @@ class DashbordDayItems extends Component {
                         <Typography align="center" variant="display1">{dayTime}</Typography>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", margin: 20 }}>
                             <ButtonBase className={classes.image}>
-                                <img alt="Essens Bild" src={imgSrc} style={{ width: "100px", height: "100px" }} />
+                                <img alt="Essens Bild" src={imgSrc} style={{ width: "100px", height: "100px", borderRadius: "50px"}} />
                             </ButtonBase>
                             <Typography className={classes.name} variant="subheading">{foodName}</Typography>
                             <Typography align="center" className={classes.description} variant="body1">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</Typography>

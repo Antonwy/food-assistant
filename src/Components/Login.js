@@ -40,7 +40,7 @@ class Login extends Component {
                     <CardContent>
                         <Typography variant="display2">Login</Typography>
                         <form className={classes.inputContainer} onSubmit={this.handleLogin}>
-                            <TextField className={classes.input} placeholder="Email" />
+                            <TextField className={classes.input} type="email" placeholder="Email" />
                             <TextField className={classes.input} placeholder="Password" type="password" />
                         </form>
                     </CardContent>

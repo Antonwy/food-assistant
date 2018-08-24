@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import AppDrawer from './Components/AppDrawer';
 import './App.css';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import pink from '@material-ui/core/colors/pink';
-import red from '@material-ui/core/colors/red';
 
 import { Route, withRouter } from 'react-router-dom';
 import Login from './Components/Login';
@@ -13,6 +11,42 @@ import Welcome from './Components/Welcome';
 import Settings from './Components/Settings'
 import { connect } from 'react-redux'
 import { LOCAL_STORAGE_PRIMARY_COLOR, LOCAL_STORAGE_SECONDARY_COLOR } from './Redux/constants';
+
+import { AnimatedSwitch, spring } from 'react-router-transition';
+
+
+function mapStyles(styles) {
+  return {
+    opacity: styles.opacity,
+    transform: `scale(${styles.scale})`,
+  };
+}
+
+// wrap the `spring` helper to use a bouncy config
+function bounce(val) {
+  return spring(val, {
+    stiffness: 330,
+    damping: 22,
+  });
+}
+
+const bounceTransition = {
+  // start in a transparent, upscaled state
+  atEnter: {
+    opacity: 0,
+    scale: 1.2,
+  },
+  // leave in a transparent, downscaled state
+  atLeave: {
+    opacity: bounce(0),
+    scale: bounce(0.8),
+  },
+  // and rest at an opaque, normally-scaled state
+  atActive: {
+    opacity: bounce(1),
+    scale: bounce(1),
+  },
+};
 
 class App extends Component {
 
@@ -54,11 +88,19 @@ class App extends Component {
     return (
       <MuiThemeProvider theme={theme}>
           <AppDrawer screenName={this.getScreenName()} />
-          <Route exact path="/" component={Login} />
-          <Route path="/register" component={Register} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/welcome" component={Welcome} />
-          <Route path="/settings" component={Settings} />
+          <AnimatedSwitch
+            atEnter={ bounceTransition.atEnter }
+            atLeave={ bounceTransition.atLeave }
+            atActive={ bounceTransition.atActive }
+            className="switch-wrapper"
+            mapStyles={mapStyles}
+          >
+            <Route exact path="/" component={Login} />
+            <Route path="/register" component={Register} />
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/welcome" component={Welcome} />
+            <Route path="/einstellungen" component={Settings} />
+          </AnimatedSwitch>
       </MuiThemeProvider>
     );
   }

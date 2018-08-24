@@ -42,7 +42,7 @@ class Register extends Component {
                         <Typography variant="display2">Register</Typography>
                         <form className={classes.inputContainer} onSubmit={this.handleLogin}>
                             <TextField className={classes.input} placeholder="Username" />
-                            <TextField className={classes.input} placeholder="Email" />
+                            <TextField className={classes.input} type="email" placeholder="Email" />
                             <TextField className={classes.input} type="password" placeholder="Password" />
                             <TextField className={classes.input} type="password" placeholder="Password" />
                         </form>

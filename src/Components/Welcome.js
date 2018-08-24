@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Card, CardContent, Typography, Button } from '@material-ui/core';
+import { Card, CardContent, Typography, Collapse } from '@material-ui/core';
 import { withStyles } from '@material-ui/core'
 import WelcomeListItem from './WelcomeListItem';
+import update from 'immutability-helper';
 
 
 const styles = theme => ({
@@ -12,21 +13,57 @@ const styles = theme => ({
     }
 })
 
-const ernährungsArten = [
-    "Vegan",
-    "Vegetarisch",
-    "Normal",
-]
-
 class Welcome extends Component {
 
-    renderList = (item, i) => {
+    constructor(props){
+        super(props);
+        this.state = {
+            show: true,
+            ernährungsArten: [
+                {
+                    id: 0,
+                    type: "Vegan",
+                    visible: true
+                },
+                {
+                    id: 1,
+                    type: "Vegetarisch",
+                    visible: true
+                },
+                {
+                    id: 2,
+                    type: "Normal",
+                    visible: true
+                }
+            ]
+        }
+    }
+    
+
+    collapsItem = (key, value) => {
+        let newState = [];
+        this.state.ernährungsArten.forEach((item) => {
+            if(item.id !== key){
+                newState.push({ id: item.id, type: item.type, visible: value });
+            }else{
+                newState.push({ id: item.id, type: item.type, visible: true });
+            }
+        })
+        this.setState({
+            ernährungsArten: newState
+        })
+    }
+
+    renderList = (item) => {
         return( 
-            <WelcomeListItem item={item} key={i}/>
+            <Collapse key={item.id} in={item.visible} style={{padding: 2}}>
+                <WelcomeListItem item={item.type} collapseItem={this.collapsItem} id={item.id} />
+            </Collapse>
         )
     }
 
     render() {
+        
         const { classes } = this.props;
         return (
             <div>
@@ -34,7 +71,7 @@ class Welcome extends Component {
                     <CardContent>
                         <Typography variant="display2">Hi!</Typography>
                         <Typography variant="subheading">Wähle eine Ernährungsart:</Typography>
-                        {ernährungsArten.map(this.renderList)}
+                        {this.state.ernährungsArten.map(this.renderList)}
                     </CardContent>
                 </Card>
             </div>

@@ -69,7 +69,7 @@ class AppDrawer extends React.Component {
                         </ListItemIcon>
                         <ListItemText>Profile</ListItemText>
                     </ListItem>
-                    <ListItem button component={Link} to="/settings">
+                    <ListItem button component={Link} to="/einstellungen">
                         <ListItemIcon>
                             <Settings/>
                         </ListItemIcon>
