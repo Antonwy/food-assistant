@@ -70,7 +70,7 @@ class Welcome extends Component {
                 <Card className={classes.root}>
                     <CardContent>
                         <Typography variant="display2">Hi!</Typography>
-                        <Typography variant="subheading">Wähle eine Ernährungsart:</Typography>
+                        <Typography variant="subheading">Wähle deine Ernährungsart:</Typography>
                         {this.state.ernährungsArten.map(this.renderList)}
                     </CardContent>
                 </Card>
