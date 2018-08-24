@@ -1,8 +1,12 @@
 import React, { Component } from 'react'
-import { Card, CardContent, Typography, withStyles, CardActions, Button, TextField } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Card, CardContent, Typography, withStyles, Button, TextField } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { setLoggedIn } from '../Redux/actions'
+import { loginUser } from '../Redux/actions'
+
+import { withRouter } from 'react-router-dom';
+
+import { Field, reduxForm } from 'redux-form'
+
 
 const styles = theme => ({
     loginCard: {
@@ -28,29 +32,69 @@ const styles = theme => ({
 
 class Login extends Component {
 
-    handleLogin = () => {
-        this.props.setLoggedIn(true);
+    handleLogin = (values) => {
+        this.props.loginUser(values, () => {
+            this.props.history.push('/dashboard');
+        })
     }
 
+    renderTextField = ({
+        input,
+        label,
+        meta: { touched, error },
+        ...custom
+      }) => (
+        <TextField
+          placeholder={label}
+          label={touched && error ? error : label}
+          error={touched && error ? true : false}
+          {...input}
+          {...custom}
+        />
+    )
+
     render() {
-        const { classes } = this.props;
+        const { classes, handleSubmit } = this.props;
         return (
             <div>
                 <Card className={classes.loginCard}>
                     <CardContent>
                         <Typography variant="display2">Login</Typography>
-                        <form className={classes.inputContainer} onSubmit={this.handleLogin}>
-                            <TextField className={classes.input} type="email" placeholder="Email" />
-                            <TextField className={classes.input} placeholder="Password" type="password" />
+                        <form className={classes.inputContainer} onSubmit={handleSubmit(this.handleLogin)}>
+                            <Field className={this.props.classes.input} name="email" component={this.renderTextField} label="Email"/>
+                            <Field type="password" className={this.props.classes.input} name="password" component={this.renderTextField} label="Password"/>
+                            <Button type="submit" className={classes.button} variant="outlined">Login</Button>
                         </form>
                     </CardContent>
-                    <CardActions>
-                        <Button onClick={this.handleLogin} component={Link} to="/dashboard" className={classes.button} variant="outlined">Login</Button>
-                    </CardActions>
                 </Card>
             </div>
         )
     }
 }
 
-export default withStyles(styles)(connect(null, { setLoggedIn })(Login));
+const validate = values => {
+    const errors = {}
+    const requiredFields = [
+      'email',
+      'password',
+    ]
+    requiredFields.forEach(field => {
+      if (!values[field]) {
+        errors[field] = 'Required'
+      }
+    })
+    if (
+      values.email &&
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+    ) {
+      errors.email = 'Invalid email address'
+    }
+
+    return errors
+}
+
+export default withStyles(styles)(connect(null, { loginUser })(
+    reduxForm({
+        form: 'loginUser',
+        validate
+    })(withRouter(Login))));

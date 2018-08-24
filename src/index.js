@@ -11,6 +11,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { userData, colorManager } from './Redux/reducers'
 
 import { createLogger } from 'redux-logger'
+import thunk from 'redux-thunk'
 
 import { reducer as formReducer } from 'redux-form';
 
@@ -20,7 +21,7 @@ const rootReducer = combineReducers({
     colors: colorManager,
     form: formReducer
 })
-const store = createStore(rootReducer, applyMiddleware(logger));
+const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 
 ReactDOM.render(
             <Provider store={store}>

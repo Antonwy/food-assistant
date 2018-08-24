@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { Card, CardContent, Typography, withStyles, CardActions, Button, TextField } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { Card, CardContent, Typography, withStyles, Button, TextField } from '@material-ui/core';
 
 import { connect } from 'react-redux'
-import { setLoggedIn } from '../Redux/actions'
+import { registerUser } from '../Redux/actions'
 
 import { Field, reduxForm } from 'redux-form'
+
+import { withRouter } from 'react-router-dom' 
 
 const styles = theme => ({
     loginCard: {
@@ -31,8 +32,10 @@ const styles = theme => ({
 
 class Register extends Component {
 
-    handleLogin = () => {
-        this.props.setLoggedIn(true);
+    handleClick = (values) => {
+        this.props.registerUser(values, () => {
+            this.props.history.push("/welcome")
+        });
     }
 
     renderTextField = ({
@@ -43,8 +46,8 @@ class Register extends Component {
       }) => (
         <TextField
           placeholder={label}
-          label={label}
-          errorText={touched && error}
+          label={touched && error ? error : label}
+          error={touched && error ? true : false}
           {...input}
           {...custom}
         />
@@ -57,18 +60,16 @@ class Register extends Component {
                 <Card className={classes.loginCard}>
                     <CardContent>
                         <Typography variant="display2">Register</Typography>
-                        <form className={classes.inputContainer} onSubmit={handleSubmit}>
+                        <form className={classes.inputContainer} onSubmit={handleSubmit(this.handleClick)}>
                             <Field className={this.props.classes.input} name="username" component={this.renderTextField} label="Username"/>
                             <Field className={this.props.classes.input} name="vorname" component={this.renderTextField} label="Vorname"/>
                             <Field className={this.props.classes.input} name="nachname" component={this.renderTextField} label="Nachname"/>
                             <Field className={this.props.classes.input} name="email" component={this.renderTextField} label="Email"/>
-                            <Field className={this.props.classes.input} name="password1" component={this.renderTextField} label="Password"/>
-                            <Field className={this.props.classes.input} name="password2" component={this.renderTextField} label="Password"/>
+                            <Field type="password" className={this.props.classes.input} name="password1" component={this.renderTextField} label="Password"/>
+                            <Field type="password" className={this.props.classes.input} name="password2" component={this.renderTextField} label="Password"/>
+                            <Button type="submit" className={classes.button} variant="outlined">Register</Button>
                         </form>
                     </CardContent>
-                    <CardActions>
-                        <Button onClick={handleSubmit} component={Link} to="/welcome" className={classes.button} variant="outlined">Register</Button>
-                    </CardActions>
                 </Card>
             </div>
         )
@@ -96,11 +97,19 @@ const validate = values => {
     ) {
       errors.email = 'Invalid email address'
     }
+
+    const { password1, password2 } = values;
+
+    if(password1 !== password2 && password1 && password2){
+        errors.password1 = 'Passwörter stimmen nicht über ein!'
+        errors.password2 = 'Passwörter stimmen nicht über ein!'
+    }
+
     return errors
 }
 
 
-export default withStyles(styles)(connect(null, { setLoggedIn })(reduxForm({
+export default withStyles(styles)(connect(null, { registerUser })(reduxForm({
     form: 'registerForm', 
     validate
-  })(Register)));
+  })(withRouter(Register))));

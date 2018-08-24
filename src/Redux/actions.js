@@ -1,10 +1,40 @@
-import { IS_LOGGED_IN, CHANGE_PRIMARY_COLOR, CHANGE_SECONDARY_COLOR } from "./constants";
+import { IS_LOGGED_IN, CHANGE_PRIMARY_COLOR, CHANGE_SECONDARY_COLOR, ROOT_URL } from "./constants";
+import axios from 'axios';
 
 export const setLoggedIn = (tf) => {
     return {
         type: IS_LOGGED_IN,
         payload: tf,
     }
+}
+
+export const registerUser = (userData, callback) => (dispatch) => {
+    const { username, password1, firstname, lastname } = userData;
+    
+    axios.post(`${ROOT_URL}/register`, {
+        username,
+        password: password1,
+        firstName: firstname,
+        lastName: lastname,
+    }).then(response => {
+        if(response.status == 200){
+            callback();
+            setLoggedIn(true);
+        }
+    }).catch(err => console.log(err));
+}
+
+export const loginUser = (userData, callback) => (dispatch) => {
+    const { email, password } = userData;
+    axios.post(`${ROOT_URL}/login`, {
+        email,
+        password
+    }).then(response => {
+        if(response.status == 200){
+            callback();
+            setLoggedIn(true);
+        }
+    })
 }
 
 export const changePrimaryColor = (primary) => {

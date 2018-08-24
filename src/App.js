@@ -9,6 +9,7 @@ import Register from './Components/Register';
 import Dashboard from './Components/Dashboard';
 import Welcome from './Components/Welcome';
 import Settings from './Components/Settings'
+import Profile from './Components/Profile'
 import { connect } from 'react-redux'
 import { LOCAL_STORAGE_PRIMARY_COLOR, LOCAL_STORAGE_SECONDARY_COLOR } from './Redux/constants';
 
@@ -100,6 +101,7 @@ class App extends Component {
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/welcome" component={Welcome} />
             <Route path="/einstellungen" component={Settings} />
+            <Route path="/profile" component={Profile} />
           </AnimatedSwitch>
       </MuiThemeProvider>
     );
@@ -107,7 +109,6 @@ class App extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log(state)
   return{
     colors: state.colors
   }

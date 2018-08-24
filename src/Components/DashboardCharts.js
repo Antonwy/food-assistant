@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 
 import { withStyles, CardContent, Typography } from '@material-ui/core'
-
-import { Sparklines, SparklinesLine, SparklinesReferenceLine } from 'react-sparklines';
 import { Card } from '@material-ui/core';
 
 import {Bar} from 'react-chartjs-2';
@@ -39,10 +37,6 @@ class DashboardCharts extends Component {
             <Card className={classes.card}>
                 <CardContent>
                     <Typography gutterBottom align="center" variant="title">{header}</Typography>
-                    {/* <Sparklines height={120} width={180} data={data}>
-                        <SparklinesLine color={color} />
-                        <SparklinesReferenceLine type="avg" />
-                    </Sparklines> */}
                     <Bar
                         data={data}
                         width={200}
