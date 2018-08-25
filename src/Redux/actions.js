@@ -30,7 +30,8 @@ export const loginUser = (userData, callback) => (dispatch) => {
         email,
         password
     }).then(response => {
-        if(response.status === 200){
+        console.log(response)
+        if(response.data.successul === 200){
             callback();
             setLoggedIn(true);
         }

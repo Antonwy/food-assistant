@@ -9,4 +9,4 @@ export const LOCAL_STORAGE_SECONDARY_COLOR = "LOCAL_STORAGE_SECONDARY_COLOR"
 export const GET_USER_DATA = "GET_USER_DATA";
 export const GET_USER = "GET_USER";
 
-export const ROOT_URL = "/"
+export const ROOT_URL = "http://159.69.117.200:8080"
