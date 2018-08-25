@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { withStyles, Card, Typography, Button, Collapse, TextField, FormControl, FormControlLabel, FormLabel } from '@material-ui/core'
+import { withStyles, Card, Typography, Button, Collapse, TextField, FormControl, FormControlLabel, FormLabel, Menu, MenuItem, Paper } from '@material-ui/core'
 import { withRouter } from 'react-router-dom'
 
 import { Field, reduxForm } from 'redux-form'
@@ -25,13 +25,28 @@ const style = theme => ({
     },
     formControl: {
         margin: 20
+    },
+    genderBTN: {
+        margin: 20
+    },
+    genderOptions: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center"
     }
 })
+
+const options = [
+    "Männlich",
+    "Weiblich"
+]
 
 class WelcomeListItem extends Component {
 
     state = {
-        show: false
+        show: false,
+        anchorEl: null,
+        selectedIndex: 1,
     }
 
     handleCollapse = () => {
@@ -63,11 +78,25 @@ class WelcomeListItem extends Component {
     );
 
     handleSave = (values) => {
-        console.log(values)
+        let newValues = Object.assign({}, values, { männlich: this.state.selectedIndex === 1 ? false : true })
+        console.log(newValues)
     }
+    
+    handleClick = event => {
+        this.setState({ anchorEl: event.currentTarget });
+    };
+
+    handleMenuItemClick = (event, index) => {
+        this.setState({ selectedIndex: index, anchorEl: null });
+    };
+    
+    handleClose = () => {
+        this.setState({ anchorEl: null });
+    };
 
     render() {
         const {classes, item, handleSubmit } = this.props;
+        const { anchorEl } = this.state;
         return (
             <div>
                 <Card className={classes.list}>
@@ -80,6 +109,34 @@ class WelcomeListItem extends Component {
                     <Collapse in={this.state.show}>
                         <div className={classes.container}>
                             <Typography align="center" variant="display1" gutterBottom>Deine Werte:</Typography>
+                            <Paper className={classes.genderOptions}>
+                                <Button
+                                    aria-owns={anchorEl ? 'simple-menu' : null}
+                                    aria-haspopup="true"
+                                    onClick={this.handleClick}
+                                    className={classes.genderBTN}
+                                    variant="outlined"
+                                    >
+                                    Wähle Geschlecht
+                                </Button>
+                                <Menu
+                                id="simple-menu"
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={this.handleClose}
+                                >   
+                                    {options.map((option, index) => (
+                                        <MenuItem
+                                        key={option}
+                                        selected={index === this.state.selectedIndex}
+                                        onClick={event => this.handleMenuItemClick(event, index)}
+                                        >
+                                        {option}
+                                        </MenuItem>
+                                    ))}
+                                </Menu>
+                                <Typography style={{marginRight: 20}}>{options[this.state.selectedIndex]}</Typography>
+                            </Paper>
                             <Field defaultValue="2017-05-24" name="geb" label="Geburstag" component={this.renderDateChooser} />
                             <FormControl className={classes.formControl} component="fieldset">
                                 <FormLabel component="legend">Allergien: </FormLabel>

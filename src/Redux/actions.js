@@ -38,13 +38,14 @@ export const loginUser = (userData, callback) => (dispatch) => {
 }
 
 export const postUserDetails = (userDetails, callback) => (dispatch) => {
-    const { geb, ei, gluten, erdnüsse, lactose } = userDetails;
+    const { geb, ei, gluten, erdnüsse, lactose, männlich } = userDetails;
     axios.post(`${ROOT_URL}/user_details`, {
         geburtstag: geb,
         ei,
         gluten,
         erdnüsse,
-        lactose
+        lactose,
+        männlich
     })
     .then(res => {callback()})
     .catch(err => console.log(err));
