@@ -34,7 +34,7 @@ class ColorChooser extends React.Component {
         currCallback();
     }
     currCallback = callback;
-    if(this.props.colorType === 'primary'){
+    if(this.props.colorType === 'Haupt'){
       this.props.changePrimaryColor(color);
       localStorage.setItem(LOCAL_STORAGE_PRIMARY_COLOR, JSON.stringify(color));
     }else{
@@ -55,7 +55,7 @@ class ColorChooser extends React.Component {
           onClose={handleClose}
           aria-labelledby="responsive-dialog-title"
         >
-          <DialogTitle id="responsive-dialog-title">{`Choose ${colorType} Color: `}</DialogTitle>
+          <DialogTitle id="responsive-dialog-title">{`Wähle ${colorType} Farbe: `}</DialogTitle>
           <DialogContent>
             <div style={{ display: "flex", flexWrap: "wrap", width: "100%", justifyContent: 'center', alignContent: 'center'}}>
                 {colors.map((color, i) => ( <ColorShow selectColor={this.selectPrimaryColor} key={i} color={color}/> ))}
@@ -63,10 +63,10 @@ class ColorChooser extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="secondary">
-              Close
+              Schließen
             </Button>
             <Button onClick={handleClose} color="secondary" autoFocus>
-              Choose
+              Wählen
             </Button>
           </DialogActions>
         </Dialog>

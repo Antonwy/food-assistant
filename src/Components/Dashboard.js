@@ -19,6 +19,18 @@ const style = theme => ({
   },
 })
 
+const dayTime = [
+  "Morgens",
+  "Mittags",
+  "Abends"
+]
+
+const foodData = [
+  "Birchermüsli mit Möhren",
+  "Weizen-Risotto",
+  "Gemüse-Pfannkuche"
+]
+
 class Dashboard extends Component {
   render() {
     
@@ -27,11 +39,13 @@ class Dashboard extends Component {
       <div>
         <Typography variant="display2" style={{color: "white", margin: 20}} align="center">Food Assistant</Typography>
         <div className={classes.container}>
-          <DashbordDayItems dayTime="Morgens" foodName="Nudeln" />
-          <DashbordDayItems dayTime="Mittags" foodName="Pizza" />
-          <DashbordDayItems dayTime="Abends" foodName="Lasagne" />
+          {
+            dayTime.map(( item, i) => {
+              return <DashbordDayItems key={i} dayTime={item} foodData={foodData[i]} />
+            })
+          }
         </div>
-        <DashboardTable />
+        <DashboardTable foodData={foodData} />
         <div className={classes.container}>
           <DashboardCharts header="Header1" color="blue" data={[7, 20, 5, 15, 6, 8]}/>
           <DashboardCharts header="Header2" color="red" data={[2, 7, 12, 25, 24, 10]}/>

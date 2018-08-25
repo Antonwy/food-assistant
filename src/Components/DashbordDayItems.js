@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withStyles, ButtonBase, Button, CardActions, Collapse } from '@material-ui/core'
+import { withStyles, ButtonBase } from '@material-ui/core'
 import { CardContent, Typography, Card } from '@material-ui/core';
 
 
@@ -20,9 +20,11 @@ const styles = theme => ({
     },
     description: {
         width: 250,
+        color: "rgba(0,0,0,.6)"
     },
     name: {
-        margin: 10
+        margin: 20,
+        fontWeight: 600
     },
     paper: {
         width: "95%",
@@ -45,7 +47,7 @@ class DashbordDayItems extends Component {
     }
 
     render() {
-        const { classes, dayTime, foodName } = this.props;
+        const { classes, dayTime, foodData } = this.props;
         const imgSrc = `https://source.unsplash.com/200x200/?food,meal?sig=${Math.round(Math.random() * 100)}`
         return (
             <div>
@@ -56,7 +58,7 @@ class DashbordDayItems extends Component {
                             <ButtonBase className={classes.image}>
                                 <img alt="Essens Bild" src={imgSrc} style={{ width: "100px", height: "100px", borderRadius: "50px"}} />
                             </ButtonBase>
-                            <Typography className={classes.name} variant="subheading">{foodName}</Typography>
+                            <Typography className={classes.name} variant="subheading">{foodData}</Typography>
                             <Typography align="center" className={classes.description} variant="body1">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</Typography>
                         </div>
                     </CardContent>

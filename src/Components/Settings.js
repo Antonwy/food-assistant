@@ -56,7 +56,7 @@ class Settings extends React.Component {
                 <ColorChooser open={dialogOpen} colorType={colorType} handleClose={this.handleClose}/>
                 <Card>
                     <CardContent>
-                        <Typography gutterBottom  variant="display3">Einstellungen</Typography>
+                        <Typography gutterBottom  variant="display2">Einstellungen</Typography>
                         <List>
                             <ListItem>
                                 <ListItemText variant="subheading">Nutzerdaten ändern: </ListItemText>
@@ -76,11 +76,11 @@ class Settings extends React.Component {
                             <Divider/>
                             <ListItem>
                                 <Typography variant="subheading">Haupt Farbe: </Typography>
-                                <Button variant="contained" color="primary" className={classes.chooseBTN} onClick={this.handleClick("primary")}>Wählen</Button>
+                                <Button variant="contained" color="primary" className={classes.chooseBTN} onClick={this.handleClick("Haupt")}>Wählen</Button>
                             </ListItem>
                             <ListItem>
                                 <Typography variant="subheading">Neben Farbe</Typography>
-                                <Button variant="contained" color="secondary" className={classes.chooseBTN} onClick={this.handleClick("secondary")}>Wählen</Button>
+                                <Button variant="contained" color="secondary" className={classes.chooseBTN} onClick={this.handleClick("Neben")}>Wählen</Button>
                             </ListItem>
                         </List>
                         

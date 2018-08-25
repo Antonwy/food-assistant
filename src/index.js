@@ -25,7 +25,7 @@ const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 
 ReactDOM.render(
             <Provider store={store}>
-                <Router basename={process.env.PUBLIC_URL}>
+                <Router basename={process.env.PUBLIC_URL + "/#/"}>
                     <App />
                 </Router>
             </Provider>,

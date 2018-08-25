@@ -31,45 +31,52 @@ function createData(name, calories, fat, carbs, protein) {
   return { id, name, calories, fat, carbs, protein };
 }
 
-const rows = [
-  createData('Nudeln', 159, 6.0, 24, 4.0),
-  createData('Pizza', 237, 9.0, 37, 4.3),
-  createData('Lasagne', 262, 16.0, 24, 6.0),
-];
 
-const DashboardTable = (props) => {
-  const { classes } = props;
 
-  return (
-    <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell numeric>Kalorien</TableCell>
-            <TableCell numeric>Fett (g)</TableCell>
-            <TableCell numeric>Kohlenhydrate (g)</TableCell>
-            <TableCell numeric>Protein (g)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => {
-            return (
-              <TableRow className={classes.row} key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell numeric>{row.calories}</TableCell>
-                <TableCell numeric>{row.fat}</TableCell>
-                <TableCell numeric>{row.carbs}</TableCell>
-                <TableCell numeric>{row.protein}</TableCell>
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-    </Paper>
-  );
+class DashboardTable extends React.Component {
+
+  state = {
+    rows: [
+      createData(this.props.foodData[0], 159, 6.0, 24, 4.0),
+      createData(this.props.foodData[1], 237, 9.0, 37, 4.3),
+      createData(this.props.foodData[2], 262, 16.0, 24, 6.0),
+    ]
+  }
+
+  render(){
+    const { rows } = this.state;
+    const { classes } = this.props;
+    return (
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Dessert (100g serving)</TableCell>
+              <TableCell numeric>Kalorien</TableCell>
+              <TableCell numeric>Fett (g)</TableCell>
+              <TableCell numeric>Kohlenhydrate (g)</TableCell>
+              <TableCell numeric>Protein (g)</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.map(row => {
+              return (
+                <TableRow className={classes.row} key={row.id}>
+                  <TableCell component="th" scope="row">
+                    {row.name}
+                  </TableCell>
+                  <TableCell numeric>{row.calories}</TableCell>
+                  <TableCell numeric>{row.fat}</TableCell>
+                  <TableCell numeric>{row.carbs}</TableCell>
+                  <TableCell numeric>{row.protein}</TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </Paper>
+    );
+  }
 }
 
 

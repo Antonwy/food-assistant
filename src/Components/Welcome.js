@@ -31,7 +31,7 @@ class Welcome extends Component {
                 },
                 {
                     id: 2,
-                    type: "Normal",
+                    type: "Unspezifisch",
                     visible: true
                 }
             ]
