@@ -36,16 +36,6 @@ const styles = theme => ({
 
 class DashbordDayItems extends Component {
 
-    state = {
-        show: false
-    }
-
-    handleCollapse = () => {
-        this.setState(state => ({
-            show: !state.show
-        }))
-    }
-
     render() {
         const { classes, dayTime, foodData } = this.props;
         const imgSrc = `https://source.unsplash.com/200x200/?food,meal?sig=${Math.round(Math.random() * 100)}`
@@ -56,10 +46,10 @@ class DashbordDayItems extends Component {
                         <Typography align="center" variant="display1">{dayTime}</Typography>
                         <div style={{display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", margin: 20 }}>
                             <ButtonBase className={classes.image}>
-                                <img alt="Essens Bild" src={imgSrc} style={{ width: "100px", height: "100px", borderRadius: "50px"}} />
+                                <img alt="Essens Bild" src={foodData.imageURL} style={{ width: "100px", height: "100px", borderRadius: "50px"}} />
                             </ButtonBase>
-                            <Typography className={classes.name} variant="subheading">{foodData}</Typography>
-                            <Typography align="center" className={classes.description} variant="body1">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</Typography>
+                            <Typography className={classes.name} variant="subheading">{foodData.name}</Typography>
+                            <Typography align="center" className={classes.description} variant="body1">{foodData.description}</Typography>
                         </div>
                     </CardContent>
                 </Card>

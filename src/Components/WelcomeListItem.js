@@ -80,6 +80,7 @@ class WelcomeListItem extends Component {
     handleSave = (values) => {
         let newValues = Object.assign({}, values, { männlich: this.state.selectedIndex === 1 ? false : true })
         console.log(newValues)
+        this.props.history.push('/dashboard')
     }
     
     handleClick = event => {

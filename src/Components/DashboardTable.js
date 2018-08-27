@@ -25,50 +25,34 @@ const styles = theme => ({
   },
 });
 
-let id = 0;
-function createData(name, calories, fat, carbs, protein) {
-  id += 1;
-  return { id, name, calories, fat, carbs, protein };
-}
-
-
 
 class DashboardTable extends React.Component {
 
-  state = {
-    rows: [
-      createData(this.props.foodData[0], 159, 6.0, 24, 4.0),
-      createData(this.props.foodData[1], 237, 9.0, 37, 4.3),
-      createData(this.props.foodData[2], 262, 16.0, 24, 6.0),
-    ]
-  }
-
   render(){
-    const { rows } = this.state;
-    const { classes } = this.props;
+    const { classes, foodData } = this.props;
     return (
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell numeric>Kalorien</TableCell>
-              <TableCell numeric>Fett (g)</TableCell>
-              <TableCell numeric>Kohlenhydrate (g)</TableCell>
-              <TableCell numeric>Protein (g)</TableCell>
+              <TableCell>Gerichte</TableCell>
+              <TableCell numeric>Eisen (mg)</TableCell>
+              <TableCell numeric>Magnesium (mg)</TableCell>
+              <TableCell numeric>Calcium (mg)</TableCell>
+              <TableCell numeric>Eiweiß (mg)</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => {
+            {foodData.map((food, i) => {
               return (
-                <TableRow className={classes.row} key={row.id}>
+                <TableRow className={classes.row} key={i}>
                   <TableCell component="th" scope="row">
-                    {row.name}
+                    {food.name}
                   </TableCell>
-                  <TableCell numeric>{row.calories}</TableCell>
-                  <TableCell numeric>{row.fat}</TableCell>
-                  <TableCell numeric>{row.carbs}</TableCell>
-                  <TableCell numeric>{row.protein}</TableCell>
+                  <TableCell numeric>{food.iron}</TableCell>
+                  <TableCell numeric>{food.magnesium}</TableCell>
+                  <TableCell numeric>{food.calcium}</TableCell>
+                  <TableCell numeric>{food.protein}</TableCell>
                 </TableRow>
               );
             })}

@@ -14,6 +14,7 @@ import { connect } from 'react-redux'
 import { LOCAL_STORAGE_PRIMARY_COLOR, LOCAL_STORAGE_SECONDARY_COLOR } from './Redux/constants';
 
 import { AnimatedSwitch, spring } from 'react-router-transition';
+import AddFood from './Components/AddFood';
 
 
 function mapStyles(styles) {
@@ -102,6 +103,7 @@ class App extends Component {
             <Route path="/welcome" component={Welcome} />
             <Route path="/einstellungen" component={Settings} />
             <Route path="/profile" component={Profile} />
+            <Route path="/addFood" component={AddFood} />
           </AnimatedSwitch>
       </MuiThemeProvider>
     );

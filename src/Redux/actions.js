@@ -1,4 +1,4 @@
-import { IS_LOGGED_IN, CHANGE_PRIMARY_COLOR, CHANGE_SECONDARY_COLOR, ROOT_URL, GET_USER } from "./constants";
+import { IS_LOGGED_IN, CHANGE_PRIMARY_COLOR, CHANGE_SECONDARY_COLOR, ROOT_URL, GET_USER, GET_DAILY_FOOD, SET_USER } from "./constants";
 import axios from 'axios';
 
 export const setLoggedIn = (tf) => {
@@ -9,18 +9,17 @@ export const setLoggedIn = (tf) => {
 }
 
 export const registerUser = (userData, callback) => (dispatch) => {
-    const { username, email, password1, firstname, lastname } = userData;
+    const { email, password1, vorname, nachname } = userData;
+    console.log(userData)
     axios.post(`${ROOT_URL}/register`, {
-        username,
         email,
         password: password1,
-        firstName: firstname,
-        lastName: lastname,
+        firstName: vorname,
+        lastName: nachname,
     }).then(response => {
-        if(response.status === 200){
-            callback();
-            setLoggedIn(true);
-        }
+            dispatch({ type: SET_USER, payload: response.data })
+            dispatch({ type: IS_LOGGED_IN, payload: true })
+            callback(response.data);
     }).catch(err => console.log(err));
 }
 
@@ -31,11 +30,22 @@ export const loginUser = (userData, callback) => (dispatch) => {
         password
     }).then(response => {
         console.log(response)
-        if(response.data.successul === 200){
-            callback();
-            setLoggedIn(true);
+        if(response.data.successful){
+            callback(true);
+            dispatch({ type: SET_USER, payload: response.data.user })
+            dispatch({ type: IS_LOGGED_IN, payload: true })
+        }else{
+            callback(false)
         }
     })
+}
+
+export const getDailyFood = () => (dispatch) => {
+    axios.get(`${ROOT_URL}/dailyFood`)
+        .then(res => {
+            dispatch({ type: GET_DAILY_FOOD, payload: res.data })
+        })
+        .catch(err => console.log(err))
 }
 
 export const postUserDetails = (userDetails, callback) => (dispatch) => {
@@ -59,6 +69,29 @@ export const getUser = (id, callback) => (dispatch) => {
             dispatch({ type: GET_USER, payload: res.data })
         })
         .catch(err => console.log(err))
+}
+
+export const addFood = (data) => (dispatch) => {
+    const { 
+    name,
+    imageURL,
+    description,
+    foodTime,
+    iron,
+    magnesium,
+    calcium,
+    protein, userId } = data;
+    axios.post(`${ROOT_URL}/addFood`, {
+        name,
+        imageURL,
+        description,
+        foodTime,
+        iron,
+        magnesium,
+        calcium,
+        protein,
+        userId
+    })
 }
 
 export const changePrimaryColor = (primary) => {

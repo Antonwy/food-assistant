@@ -6,6 +6,8 @@ import DashbordDayItems from './DashbordDayItems';
 import DashboardCharts from './DashboardCharts';
 import DashboardTable from './DashboardTable';
 
+import { getDailyFood } from '../Redux/actions'
+
 const style = theme => ({
   container: {
     display: "flex",
@@ -25,32 +27,40 @@ const dayTime = [
   "Abends"
 ]
 
-const foodData = [
-  "Birchermüsli mit Möhren",
-  "Weizen-Risotto",
-  "Gemüse-Pfannkuche"
-]
-
 class Dashboard extends Component {
+
+
+  componentDidMount(){
+    this.props.getDailyFood();
+  }
+
+
   render() {
     
-    const { classes } = this.props;
+    const { classes, dailyFood } = this.props;
+
+    if(dailyFood.length === 0){
+      return <h1 style={{color: "white", textAlign: "center"}}>LOADING...</h1>
+    }
+
+    console.log(dailyFood)
+
     return (
       <div>
         <Typography variant="display2" style={{color: "white", margin: 20}} align="center">Food Assistant</Typography>
         <div className={classes.container}>
           {
-            dayTime.map(( item, i) => {
-              return <DashbordDayItems key={i} dayTime={item} foodData={foodData[i]} />
+            dailyFood.map((food, i) => {
+              return <DashbordDayItems key={i} dayTime={dayTime[food.foodTime]} foodData={food} />
             })
           }
         </div>
-        <DashboardTable foodData={foodData} />
-        <div className={classes.container}>
+        <DashboardTable foodData={dailyFood} />
+        {/* <div className={classes.container}>
           <DashboardCharts header="Header1" color="blue" data={[7, 20, 5, 15, 6, 8]}/>
           <DashboardCharts header="Header2" color="red" data={[2, 7, 12, 25, 24, 10]}/>
           <DashboardCharts header="Header3" color="green" data={[30, 7, 2, 25, 25, 15]}/>
-        </div>
+        </div> */}
       </div>
     )
   }
@@ -58,8 +68,9 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user.isLoggedIn,
+    dailyFood: state.dailyFood
   }
 }
 
-export default withStyles(style)(connect(mapStateToProps)(Dashboard));
+export default withStyles(style)(connect(mapStateToProps, { getDailyFood })(Dashboard));

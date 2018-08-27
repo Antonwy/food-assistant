@@ -6,6 +6,7 @@ import { loginUser } from '../Redux/actions'
 import { withRouter } from 'react-router-dom';
 
 import { Field, reduxForm } from 'redux-form'
+import { LS_USER_DATA } from '../Redux/constants';
 
 
 const styles = theme => ({
@@ -33,9 +34,23 @@ const styles = theme => ({
 
 class Login extends Component {
 
-    handleLogin = (values) => {
-        this.props.loginUser(values, () => {
+    state = {
+        wrongCredentials: false
+    }
+
+    componentDidMount(){
+        if(localStorage.getItem(LS_USER_DATA)){
             this.props.history.push('/dashboard');
+        }
+    }
+
+    handleLogin = (values) => {
+        this.props.loginUser(values, (succesful) => {
+            if(succesful){
+                this.props.history.push('/dashboard');
+            }else{
+                this.setState({ wrongCredentials: true })
+            }
         })
     }
 
@@ -56,6 +71,7 @@ class Login extends Component {
 
     render() {
         const { classes, handleSubmit } = this.props;
+
         return (
             <div>
                 <Card className={classes.loginCard}>
@@ -64,6 +80,7 @@ class Login extends Component {
                         <form className={classes.inputContainer} onSubmit={handleSubmit(this.handleLogin)}>
                             <Field className={this.props.classes.input} name="email" component={this.renderTextField} label="Email"/>
                             <Field type="password" className={this.props.classes.input} name="password" component={this.renderTextField} label="Password"/>
+                            { this.state.wrongCredentials ? <Typography style={{marginTop: 10}} color="error" align="center">Falsche Eingabe!</Typography> : <div></div> }
                             <Button type="submit" className={classes.button} variant="outlined">Login</Button>
                         </form>
                     </CardContent>

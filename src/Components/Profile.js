@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { withStyles, Card, CardContent, Typography, Avatar, Button } from '@material-ui/core';
 
 import { withRouter } from 'react-router-dom';
+import { LS_USER_DATA } from '../Redux/constants';
+
+import { connect } from 'react-redux'
+import { setLoggedIn } from '../Redux/actions'
 
 
 const style = theme => ({
@@ -26,25 +30,37 @@ const style = theme => ({
     }
 })
 
-const username = "Anton Wyrowski"
+
 
 class Profile extends Component {
 
     handleLogout = () => {
+        localStorage.removeItem(LS_USER_DATA);
+        this.props.setLoggedIn(false);
         this.props.history.push('/');
     }
 
 
     render() {
-        const { classes } = this.props;
+
+        const { classes, user: { firstName, lastName } } = this.props;
+
+        if(!firstName){
+            return (
+                <div>
+                    <h1 style={{color: "white", textAlign: "center"}}>Login first!</h1>
+                </div>
+            )
+        }
+
         return (
             <div className={classes.root}>
                 <Avatar className={classes.avatar}>
-                    <Typography className={classes.avatarText}>{username.charAt(0).toUpperCase()}</Typography>
+                    <Typography className={classes.avatarText}>{firstName.charAt(0).toUpperCase()}</Typography>
                 </Avatar>
                 <Card>
                     <CardContent className={classes.cardContent}>
-                        <Typography gutterBottom align="center" variant="headline">{username}</Typography>
+                        <Typography gutterBottom align="center" variant="headline">{firstName + " " + lastName}</Typography>
                         <Typography align="center" variant="caption">MÄNNLICH</Typography>
                         <Typography align="center" variant="caption">Geburtstag: 04.06.2000</Typography>
                         <div style={{width: "100%", display: "flex", justifyContent: "center"}}><Button onClick={this.handleLogout} style={{margin: "20px auto"}} variant="outlined" color="primary">Logout</Button></div>
@@ -56,4 +72,10 @@ class Profile extends Component {
     }
 }
 
-export default withStyles(style)(withRouter(Profile))
+const mapStateToProps = state => {
+    return{
+        user: state.user.user
+    }
+}
+
+export default withStyles(style)(withRouter(connect(mapStateToProps, { setLoggedIn })(Profile)))

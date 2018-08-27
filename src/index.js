@@ -8,20 +8,21 @@ import { Provider } from 'react-redux';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 import { BrowserRouter as Router } from 'react-router-dom';
-import { userData, colorManager } from './Redux/reducers'
+import { userData, colorManager, dailyFoodManager } from './Redux/reducers'
 
 import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 
 import { reducer as formReducer } from 'redux-form';
 
-const logger = createLogger();
+//const logger = createLogger();
 const rootReducer = combineReducers({
     user: userData,
     colors: colorManager,
-    form: formReducer
+    form: formReducer,
+    dailyFood: dailyFoodManager
 })
-const store = createStore(rootReducer, applyMiddleware(logger, thunk));
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 ReactDOM.render(
             <Provider store={store}>

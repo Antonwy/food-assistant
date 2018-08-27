@@ -7,6 +7,7 @@ import { registerUser } from '../Redux/actions'
 import { Field, reduxForm } from 'redux-form'
 
 import { withRouter } from 'react-router-dom' 
+import { LS_USER_DATA } from '../Redux/constants';
 
 const styles = theme => ({
     loginCard: {
@@ -34,8 +35,9 @@ const styles = theme => ({
 class Register extends Component {
 
     handleClick = (values) => {
-        this.props.registerUser(values, () => {
-            this.props.history.push("/welcome")
+        this.props.registerUser(values, (userData) => {
+            this.props.history.push("/welcome");
+            localStorage.setItem(LS_USER_DATA, values);
         });
     }
 
@@ -62,7 +64,6 @@ class Register extends Component {
                     <CardContent>
                         <Typography variant="display2">Register</Typography>
                         <form className={classes.inputContainer} onSubmit={handleSubmit(this.handleClick)}>
-                            <Field className={this.props.classes.input} name="username" component={this.renderTextField} label="Username"/>
                             <Field className={this.props.classes.input} name="vorname" component={this.renderTextField} label="Vorname"/>
                             <Field className={this.props.classes.input} name="nachname" component={this.renderTextField} label="Nachname"/>
                             <Field className={this.props.classes.input} name="email" component={this.renderTextField} label="Email"/>
@@ -80,7 +81,6 @@ class Register extends Component {
 const validate = values => {
     const errors = {}
     const requiredFields = [
-      'username',
       'vorname',
       'nachname',
       'email',
